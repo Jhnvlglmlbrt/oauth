@@ -8,7 +8,14 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 )
+
+func GetFilePath() string {
+	absPath, _ := filepath.Abs(".")
+	baseDir := filepath.Dir(absPath)
+	return baseDir
+}
 
 func GetGithubClientID() string {
 	githubClientId, exists := os.LookupEnv("CLIENT_ID")
