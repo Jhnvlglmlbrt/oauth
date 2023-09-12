@@ -6,12 +6,14 @@ import (
 	"net/http"
 
 	"github.com/Jhnvlglmlbrt/oauth/api"
+	"github.com/Jhnvlglmlbrt/oauth/utils"
 	"github.com/joho/godotenv"
 )
 
 func init() {
-	if err := godotenv.Load(); err != nil {
-		log.Fatal(".env file not found")
+	envFile := utils.GetFilePath() + "/.env"
+	if err := godotenv.Load(envFile); err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
 	}
 }
 

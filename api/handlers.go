@@ -25,7 +25,7 @@ func GithubLoginHandler(w http.ResponseWriter, r *http.Request) {
 
 func GithubRedirectHandler(w http.ResponseWriter, r *http.Request) {
 	code := r.URL.Query().Get("code")
-
+	// fmt.Println("auth code:", code)
 	githubAccessToken := utils.GetGithubAccessToken(code)
 	// fmt.Println("githubAccessToken:", githubAccessToken)
 	githubData := utils.GetGithubData(githubAccessToken)
