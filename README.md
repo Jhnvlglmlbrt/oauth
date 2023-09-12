@@ -47,7 +47,8 @@
 1. Клиент (фронтенд) переходит на маршрут, предназначенный для входа через GitHub - '/login/github'.
 
 2. Когда этот маршрут запрашивается у сервера (GET-запрос к серверу), сервер перенаправляет пользователя на специальный маршрут на github.com, где он может авторизовать приложение.
-Маршрут имеет следующий вид: https://github.com/login/oauth/authorize?client_id=GITHUBCLIENTID&redirect_uri=/login/github/callback. 
+Маршрут имеет следующий вид: 
+https://github.com/login/oauth/authorize?client_id=GITHUBCLIENTID&redirect_uri=/login/github/callback. 
 Здесь пользователь входит в GitHub (если ещё не вошел) и на следующей странице разрешает приложению доступ к своей информации.
 
 3. После того как пользователь разрешил, API GitHub отправляет запрос на redirect_uri, указанный в предыдущем запросе (/login/github/redirect в данном случае). 
