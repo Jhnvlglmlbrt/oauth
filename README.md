@@ -31,4 +31,4 @@
 ***
 ### Структура приложения
 
-![DIAG!](png.png)
+![images/DIAG!](png.png)
