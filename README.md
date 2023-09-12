@@ -31,7 +31,6 @@
     CLIENT_ID=xxxxxxxxxxxxxxxxxxxx
     CLIENT_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-
 5. Убедитесь, что в случае, если создавали свои url, что поменяли их в коде.
 
 6. Запустите код: 
