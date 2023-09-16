@@ -9,6 +9,8 @@ import (
 	"github.com/gorilla/sessions"
 )
 
+var store = sessions.NewCookieStore([]byte(utils.GetSessionKey()))
+
 func RootHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, `<a href="/login/github/">LOGIN</a>`)
 }
@@ -23,8 +25,6 @@ func GithubLoginHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, redirectURL, http.StatusMovedPermanently)
 }
 
-var store = sessions.NewCookieStore([]byte(utils.GetSessionKey()))
-
 func GithubRedirectHandler(w http.ResponseWriter, r *http.Request) {
 	code := r.URL.Query().Get("code")
 	// fmt.Println("auth code:", code)
@@ -33,6 +33,7 @@ func GithubRedirectHandler(w http.ResponseWriter, r *http.Request) {
 	githubData := utils.GetGithubData(githubAccessToken)
 
 	session, err := store.Get(r, "github-session")
+
 	if err != nil {
 		http.Error(w, "Session error: "+err.Error(), http.StatusInternalServerError)
 		return

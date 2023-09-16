@@ -36,7 +36,7 @@ func GetGithubClientSecret() string {
 func GetSessionKey() string {
 	sessionKey, exists := os.LookupEnv("SESSION_KEY")
 	if !exists {
-		log.Fatal("SESSION_KEY is not set in .env file")
+		log.Fatal("Github SessionKey not found in .env file")
 	}
 	return sessionKey
 }
