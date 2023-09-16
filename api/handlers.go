@@ -29,7 +29,10 @@ func GithubRedirectHandler(w http.ResponseWriter, r *http.Request) {
 	githubAccessToken := utils.GetGithubAccessToken(code)
 	// fmt.Println("githubAccessToken:", githubAccessToken)
 	githubData := utils.GetGithubData(githubAccessToken)
+
 	LoggedinHandler(w, r, githubData)
+	http.Redirect(w, r, "/loggedin", http.StatusFound)
+
 }
 
 func LoggedinHandler(w http.ResponseWriter, r *http.Request, githubData string) {
