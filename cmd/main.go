@@ -23,7 +23,7 @@ func main() {
 	http.HandleFunc("/login/github/redirect", api.GithubRedirectHandler)
 
 	http.HandleFunc("/loggedin", func(w http.ResponseWriter, r *http.Request) {
-		api.LoggedinHandler(w, r, "")
+		api.LoggedinHandler(w, r)
 	})
 
 	fmt.Println("[UP ON PORT 3000]")

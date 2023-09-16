@@ -33,6 +33,14 @@ func GetGithubClientSecret() string {
 	return githubClientSecret
 }
 
+func GetSessionKey() string {
+	sessionKey, exists := os.LookupEnv("SESSION_KEY")
+	if !exists {
+		log.Fatal("SESSION_KEY is not set in .env file")
+	}
+	return sessionKey
+}
+
 func GetGithubAccessToken(code string) string {
 	clientID := GetGithubClientID()
 	clientSecret := GetGithubClientSecret()

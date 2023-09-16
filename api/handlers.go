@@ -3,10 +3,10 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/Jhnvlglmlbrt/oauth/utils"
+	"github.com/gorilla/sessions"
 )
 
 func RootHandler(w http.ResponseWriter, r *http.Request) {
@@ -23,6 +23,8 @@ func GithubLoginHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, redirectURL, http.StatusMovedPermanently)
 }
 
+var store = sessions.NewCookieStore([]byte(utils.GetSessionKey()))
+
 func GithubRedirectHandler(w http.ResponseWriter, r *http.Request) {
 	code := r.URL.Query().Get("code")
 	// fmt.Println("auth code:", code)
@@ -30,14 +32,24 @@ func GithubRedirectHandler(w http.ResponseWriter, r *http.Request) {
 	// fmt.Println("githubAccessToken:", githubAccessToken)
 	githubData := utils.GetGithubData(githubAccessToken)
 
-	LoggedinHandler(w, r, githubData)
+	session, err := store.Get(r, "github-session")
+	if err != nil {
+		http.Error(w, "Session error: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	session.Values["githubData"] = githubData
+	session.Save(r, w)
+
 	http.Redirect(w, r, "/loggedin", http.StatusFound)
 
 }
 
-func LoggedinHandler(w http.ResponseWriter, r *http.Request, githubData string) {
-	if githubData == "" {
-		fmt.Fprint(w, "Unauthorized access!")
+func LoggedinHandler(w http.ResponseWriter, r *http.Request) {
+	session, _ := store.Get(r, "github-session")
+	githubData, ok := session.Values["githubData"].(string)
+
+	if !ok {
+		http.Error(w, "Unauthorized access!", http.StatusUnauthorized)
 		return
 	}
 
@@ -45,14 +57,15 @@ func LoggedinHandler(w http.ResponseWriter, r *http.Request, githubData string) 
 
 	var data interface{}
 	if err := json.Unmarshal([]byte(githubData), &data); err != nil {
-		log.Panic("Json Parse error: ", err)
+		http.Error(w, "JSON Parse error: "+err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	formattedJson, err := json.MarshalIndent(data, "", "\t")
 	if err != nil {
-		log.Panic("JSON format error: ", err)
+		http.Error(w, "JSON format error: "+err.Error(), http.StatusInternalServerError)
+		return
 	}
 
-	fmt.Fprint(w, string(formattedJson))
-
+	w.Write(formattedJson)
 }
