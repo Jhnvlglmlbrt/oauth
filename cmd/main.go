@@ -26,8 +26,8 @@ func main() {
 		api.LoggedinHandler(w, r, "")
 	})
 
-	fmt.Println("[UP ON PORT 4000]")
+	fmt.Println("[UP ON PORT 3000]")
 	log.Panic(
-		http.ListenAndServe(":4000", nil),
+		http.ListenAndServe(":3000", nil),
 	)
 }

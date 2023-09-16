@@ -18,7 +18,7 @@ func GithubLoginHandler(w http.ResponseWriter, r *http.Request) {
 	redirectURL := fmt.Sprintf(
 		"https://github.com/login/oauth/authorize?client_id=%s&redirect_uri=%s",
 		githubClientID,
-		"http://localhost:4000/login/github/redirect",
+		"http://localhost:3000/login/github/redirect",
 	)
 	http.Redirect(w, r, redirectURL, http.StatusMovedPermanently)
 }
