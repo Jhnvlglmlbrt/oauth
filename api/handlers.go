@@ -68,5 +68,14 @@ func LoggedinHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// var formJson bytes.Buffer
+
+	// if err := json.Indent(&formJson, []byte(githubData), "", "\t"); err != nil {
+	// 	http.Error(w, "JSON format error: "+err.Error(), http.StatusInternalServerError)
+	// 	return
+	// }
+
+	// w.Write(formJson.Bytes())
+
 	w.Write(formattedJson)
 }
